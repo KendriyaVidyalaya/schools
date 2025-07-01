@@ -18,6 +18,12 @@ jobs:
           mkdir -p raw
           curl -X POST "https://pis.kvs.gov.in/filtered-kv" -o raw/schools.json
 
+      - name: Format schools.json
+        run: |
+          # Format JSON file in-place with jq for pretty print
+          tmpfile=$(mktemp)
+          jq . raw/schools.json > "$tmpfile" && mv "$tmpfile" raw/schools.json
+
       - name: Extract school names to schools.txt
         run: |
           jq -r '.[].NME' raw/schools.json > raw/schools.txt
