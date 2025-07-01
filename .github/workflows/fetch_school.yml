@@ -3,14 +3,14 @@ name: Update Schools Dataset
 on:
   schedule:
     - cron: '0 0 */10 * *'  # Every 10 days
-  workflow_dispatch:        # Allow manual trigger too
+  workflow_dispatch:
 
 jobs:
-  build:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -18,11 +18,12 @@ jobs:
         with:
           node-version: 20
 
-      - name: Generate school data and save to raw/
+      - name: Install dependencies
+        run: npm install node-fetch@2 set-cookie-parser
+
+      - name: Run update script
         run: |
           mkdir -p raw
-
-          npm install set-cookie-parser
 
           cat << 'EOF' > update.js
           const fs = require("fs");
@@ -61,16 +62,17 @@ jobs:
               headers: { "User-Agent": "Mozilla/5.0" },
             });
 
-            const rawSetCookie = res.headers.raw()['set-cookie'];
+            const rawSetCookie = res.headers.raw()["set-cookie"];
             const cookies = setCookie.parse(rawSetCookie, { map: true });
-            const csrf = cookies["csrf_cookie_name"]?.value;
-            const session = cookies["PHPSESSID"]?.value;
+            const csrf = cookies["csrf_cookie_name"] ? cookies["csrf_cookie_name"].value : "";
+            const session = cookies["PHPSESSID"] ? cookies["PHPSESSID"].value : "";
             const html = await res.text();
-            const csrfFromBody = html.match(/name="csrf_test_name" value="([^"]+)"/)?.[1];
+            const match = html.match(/name="csrf_test_name" value="([^"]+)"/);
+            const csrfFromBody = match ? match[1] : "";
 
             return {
               csrfToken: csrfFromBody || csrf,
-              cookieHeader: `csrf_cookie_name=${csrf}; PHPSESSID=${session}`,
+              cookieHeader: "csrf_cookie_name=" + csrf + "; PHPSESSID=" + session,
             };
           }
 
@@ -80,10 +82,9 @@ jobs:
           }
 
           async function fetchById(id, type, csrfToken, cookieHeader) {
-            const body =
-              type === "RO_ID"
-                  ? "csrf_test_name=" + csrfToken + "&RO_ID=" + id + "&ST_ID="
-                  : "csrf_test_name=" + csrfToken + "&RO_ID=&ST_ID=" + id;
+            const body = type === "RO_ID"
+              ? "csrf_test_name=" + csrfToken + "&RO_ID=" + id + "&ST_ID="
+              : "csrf_test_name=" + csrfToken + "&RO_ID=&ST_ID=" + id;
 
             const res = await fetch("https://pis.kvs.gov.in/filtered-kv", {
               method: "POST",
@@ -93,7 +94,7 @@ jobs:
                 cookie: cookieHeader,
                 "User-Agent": "Mozilla/5.0",
               },
-              body,
+              body: body,
             });
 
             if (!res.ok) return [];
@@ -102,7 +103,10 @@ jobs:
 
           async function enrichSchools() {
             try {
-              const { csrfToken, cookieHeader } = await getFreshCsrf();
+              const info = await getFreshCsrf();
+              const csrfToken = info.csrfToken;
+              const cookieHeader = info.cookieHeader;
+
               const rawSchools = await fetchSchools();
               console.log("Fetched " + rawSchools.length + " schools.");
 
@@ -114,7 +118,7 @@ jobs:
                 for (const s of data) {
                   codeToState[s.COD] = {
                     state_id: id,
-                    state_name: knownStates[id] || \`Unknown ST_ID \${id}\`,
+                    state_name: knownStates[id] ? knownStates[id] : "Unknown ST_ID " + id,
                   };
                 }
               }
@@ -124,30 +128,36 @@ jobs:
                 for (const s of data) {
                   codeToRegion[s.COD] = {
                     region_id: id,
-                    region_name: knownRegions[id] || \`Unknown RO_ID \${id}\`,
+                    region_name: knownRegions[id] ? knownRegions[id] : "Unknown RO_ID " + id,
                   };
                 }
               }
 
-              const enriched = rawSchools.map((s) => ({
-                code: s.COD,
-                name: s.NME,
-                ...codeToState[s.COD],
-                ...codeToRegion[s.COD],
-              }));
+              const enriched = rawSchools.map(function (s) {
+                const stateData = codeToState[s.COD] || {};
+                const regionData = codeToRegion[s.COD] || {};
+                return {
+                  code: s.COD,
+                  name: s.NME,
+                  state_id: stateData.state_id || null,
+                  state_name: stateData.state_name || null,
+                  region_id: regionData.region_id || null,
+                  region_name: regionData.region_name || null,
+                };
+              });
 
               if (enriched.length < 1320) {
-                console.error(`❌ ABORT: Only \${enriched.length} schools. Minimum is 1320.`);
+                console.error("❌ ABORT: Only " + enriched.length + " schools. Minimum is 1320.");
                 process.exit(1);
               }
 
               safeWrite("raw/schools.temp.json", "raw/schools.json", JSON.stringify(enriched, null, 2));
-              const schoolNames = enriched.map((s) => s.name).join("\\n");
+              const schoolNames = enriched.map(function (s) { return s.name; }).join("\\n");
               safeWrite("raw/schools.temp.txt", "raw/schools.txt", schoolNames);
 
-              console.log("✅ Finished.");
+              console.log("✅ Saved " + enriched.length + " schools.");
             } catch (err) {
-              console.error("❌ Script Error:", err);
+              console.error("❌ Error: " + err.message);
               process.exit(1);
             }
           }
@@ -156,7 +166,8 @@ jobs:
           EOF
 
           node update.js
-      - name: Commit and push changes
+
+      - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
