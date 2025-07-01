@@ -152,7 +152,7 @@ jobs:
               }
 
               safeWrite("raw/schools.temp.json", "raw/schools.json", JSON.stringify(enriched, null, 2));
-              const schoolNames = enriched.map(function (s) { return s.name; }).join("\\n");
+              const schoolNames = enriched.map(function (s) { return s.name; }).join("\n");
               safeWrite("raw/schools.temp.txt", "raw/schools.txt", schoolNames);
 
               console.log("✅ Saved " + enriched.length + " schools.");
