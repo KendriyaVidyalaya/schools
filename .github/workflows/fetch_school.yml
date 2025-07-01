@@ -104,7 +104,7 @@ jobs:
             try {
               const { csrfToken, cookieHeader } = await getFreshCsrf();
               const rawSchools = await fetchSchools();
-              console.log(\`Fetched \${rawSchools.length} schools.\`);
+              console.log("Fetched " + rawSchools.length + " schools.");
 
               const codeToState = {};
               const codeToRegion = {};
@@ -137,7 +137,7 @@ jobs:
               }));
 
               if (enriched.length < 1320) {
-                console.error(\`❌ ABORT: Only \${enriched.length} schools. Minimum is 1320.\`);
+                console.error(`❌ ABORT: Only \${enriched.length} schools. Minimum is 1320.`);
                 process.exit(1);
               }
 
