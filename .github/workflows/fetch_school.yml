@@ -1,35 +1,165 @@
-name: Fetch and Commit Schools
+name: Update Schools Dataset
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight UTC
+    - cron: '0 0 */10 * *'  # Every 10 days
+  workflow_dispatch:        # Allow manual trigger too
 
 jobs:
-  fetch-and-commit:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Fetch schools.json
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate school data and save to raw/
         run: |
           mkdir -p raw
-          curl -X POST "https://pis.kvs.gov.in/filtered-kv" -o raw/schools.json
 
-      - name: Format schools.json
-        run: |
-          # Format JSON file in-place with jq for pretty print
-          tmpfile=$(mktemp)
-          jq . raw/schools.json > "$tmpfile" && mv "$tmpfile" raw/schools.json
+          npm install set-cookie-parser
 
-      - name: Extract school names to schools.txt
-        run: |
-          jq -r '.[].NME' raw/schools.json > raw/schools.txt
+          cat << 'EOF' > update.js
+          const fs = require("fs");
+          const path = require("path");
+          const fetch = require("node-fetch");
+          const setCookie = require("set-cookie-parser");
 
+          const knownStates = {
+            1: "Andaman and Nicobar Islands", 2: "Andhra Pradesh", 3: "Arunachal Pradesh", 4: "Assam",
+            5: "Bihar", 6: "Chandigarh", 7: "Chhattisgarh", 8: "Dadra and Nagar Haveli", 9: "Daman and Diu",
+            10: "Delhi", 11: "Goa", 12: "Gujarat", 13: "Haryana", 14: "Himachal Pradesh", 15: "Jammu and Kashmir",
+            16: "Jharkhand", 17: "Karnataka", 18: "Kerala", 19: "Lakshadweep", 20: "Madhya Pradesh",
+            21: "Maharashtra", 22: "Manipur", 23: "Meghalaya", 24: "Mizoram", 25: "Nagaland", 26: "Odisha",
+            27: "Puducherry", 28: "Punjab", 29: "Rajasthan", 30: "Sikkim", 31: "Tamil Nadu", 32: "Telangana",
+            33: "Tripura", 34: "Uttar Pradesh", 35: "Uttarakhand", 36: "West Bengal", 37: "Union Territory of Ladakh",
+          };
+
+          const knownRegions = {
+            16: "AGRA", 17: "AHMEDABAD", 18: "BANGALORE", 19: "BHOPAL", 20: "BHUBANESWAR", 21: "CHANDIGARH",
+            22: "CHENNAI", 23: "DEHRADUN", 24: "DELHI", 25: "ERNAKULAM", 26: "GURGAON", 27: "GUWAHATI",
+            28: "HYDERABAD", 29: "JABALPUR", 30: "JAIPUR", 31: "JAMMU", 32: "KOLKATA", 33: "FORIEGN",
+            34: "LUCKNOW", 35: "MUMBAI", 36: "PATNA", 37: "RAIPUR", 38: "RANCHI", 39: "SILCHAR",
+            40: "TINSUKIA", 41: "VARANASI",
+          };
+
+          function safeWrite(tempName, finalName, data) {
+            const tempPath = path.join(__dirname, tempName);
+            const finalPath = path.join(__dirname, finalName);
+            fs.writeFileSync(tempPath, data);
+            fs.renameSync(tempPath, finalPath);
+          }
+
+          async function getFreshCsrf() {
+            const res = await fetch("https://pis.kvs.gov.in", {
+              method: "GET",
+              headers: { "User-Agent": "Mozilla/5.0" },
+            });
+
+            const rawSetCookie = res.headers.raw()['set-cookie'];
+            const cookies = setCookie.parse(rawSetCookie, { map: true });
+            const csrf = cookies["csrf_cookie_name"]?.value;
+            const session = cookies["PHPSESSID"]?.value;
+            const html = await res.text();
+            const csrfFromBody = html.match(/name="csrf_test_name" value="([^"]+)"/)?.[1];
+
+            return {
+              csrfToken: csrfFromBody || csrf,
+              cookieHeader: `csrf_cookie_name=${csrf}; PHPSESSID=${session}`,
+            };
+          }
+
+          async function fetchSchools() {
+            const res = await fetch("https://pis.kvs.gov.in/filtered-kv");
+            return await res.json();
+          }
+
+          async function fetchById(id, type, csrfToken, cookieHeader) {
+            const body =
+              type === "RO_ID"
+                ? \`csrf_test_name=\${csrfToken}&RO_ID=\${id}&ST_ID=\`
+                : \`csrf_test_name=\${csrfToken}&RO_ID=&ST_ID=\${id}\`;
+
+            const res = await fetch("https://pis.kvs.gov.in/filtered-kv", {
+              method: "POST",
+              headers: {
+                accept: "*/*",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                cookie: cookieHeader,
+                "User-Agent": "Mozilla/5.0",
+              },
+              body,
+            });
+
+            if (!res.ok) return [];
+            return await res.json();
+          }
+
+          async function enrichSchools() {
+            try {
+              const { csrfToken, cookieHeader } = await getFreshCsrf();
+              const rawSchools = await fetchSchools();
+              console.log(\`Fetched \${rawSchools.length} schools.\`);
+
+              const codeToState = {};
+              const codeToRegion = {};
+
+              for (let id = 1; id <= 100; id++) {
+                const data = await fetchById(id, "ST_ID", csrfToken, cookieHeader);
+                for (const s of data) {
+                  codeToState[s.COD] = {
+                    state_id: id,
+                    state_name: knownStates[id] || \`Unknown ST_ID \${id}\`,
+                  };
+                }
+              }
+
+              for (let id = 1; id <= 100; id++) {
+                const data = await fetchById(id, "RO_ID", csrfToken, cookieHeader);
+                for (const s of data) {
+                  codeToRegion[s.COD] = {
+                    region_id: id,
+                    region_name: knownRegions[id] || \`Unknown RO_ID \${id}\`,
+                  };
+                }
+              }
+
+              const enriched = rawSchools.map((s) => ({
+                code: s.COD,
+                name: s.NME,
+                ...codeToState[s.COD],
+                ...codeToRegion[s.COD],
+              }));
+
+              if (enriched.length < 1320) {
+                console.error(\`❌ ABORT: Only \${enriched.length} schools. Minimum is 1320.\`);
+                process.exit(1);
+              }
+
+              safeWrite("raw/schools.temp.json", "raw/schools.json", JSON.stringify(enriched, null, 2));
+              const schoolNames = enriched.map((s) => s.name).join("\\n");
+              safeWrite("raw/schools.temp.txt", "raw/schools.txt", schoolNames);
+
+              console.log("✅ Finished.");
+            } catch (err) {
+              console.error("❌ Script Error:", err);
+              process.exit(1);
+            }
+          }
+
+          enrichSchools();
+          EOF
+
+          node update.js
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Update schools.txt and schools.json from API"
-          file_pattern: raw/schools.txt raw/schools.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw/schools.json raw/schools.txt
+          git commit -m "🔄 Auto update: school dataset" || echo "No changes"
+          git push
