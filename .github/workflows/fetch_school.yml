@@ -1,0 +1,29 @@
+name: Fetch and Commit Schools
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch schools.json
+        run: |
+          mkdir -p raw
+          curl -X POST "https://pis.kvs.gov.in/filtered-kv" -o raw/schools.json
+
+      - name: Extract school names to schools.txt
+        run: |
+          jq -r '.[].NME' raw/schools.json > raw/schools.txt
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update schools.txt and schools.json from API"
+          file_pattern: raw/schools.txt raw/schools.json
