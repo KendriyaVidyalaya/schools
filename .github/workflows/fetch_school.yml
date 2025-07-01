@@ -82,8 +82,8 @@ jobs:
           async function fetchById(id, type, csrfToken, cookieHeader) {
             const body =
               type === "RO_ID"
-                ? \`csrf_test_name=\${csrfToken}&RO_ID=\${id}&ST_ID=\`
-                : \`csrf_test_name=\${csrfToken}&RO_ID=&ST_ID=\${id}\`;
+                  ? "csrf_test_name=" + csrfToken + "&RO_ID=" + id + "&ST_ID="
+                  : "csrf_test_name=" + csrfToken + "&RO_ID=&ST_ID=" + id;
 
             const res = await fetch("https://pis.kvs.gov.in/filtered-kv", {
               method: "POST",
