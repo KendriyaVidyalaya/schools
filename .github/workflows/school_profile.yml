@@ -1,0 +1,132 @@
+name: Fetch School Profiles
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */10 * *'  # Every 10 days
+
+jobs:
+  fetch-school-profiles:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install node-fetch@2 set-cookie-parser
+
+      - name: Fetch school profiles
+        run: |
+          cat << 'EOF' > fetchProfiles.js
+          const fs = require("fs");
+          const fetch = require("node-fetch");
+          const setCookie = require("set-cookie-parser");
+
+          async function getFreshCsrf() {
+            const res = await fetch("https://pis.kvs.gov.in", {
+              method: "GET",
+              headers: { "User-Agent": "Mozilla/5.0" }
+            });
+
+            const rawSetCookie = res.headers.raw()["set-cookie"];
+            const cookies = setCookie.parse(Array.isArray(rawSetCookie) ? rawSetCookie : [rawSetCookie], { map: true });
+
+            const csrf = cookies["csrf_cookie_name"]?.value || "";
+            const session = cookies["PHPSESSID"]?.value || "";
+
+            const html = await res.text();
+            const csrfFromBody = html.match(/name="csrf_test_name" value="([^"]+)"/)?.[1] || "";
+
+            return {
+              csrfToken: csrfFromBody || csrf,
+              cookieHeader: "csrf_cookie_name=" + csrf + "; PHPSESSID=" + session
+            };
+          }
+
+          async function fetchProfile(kvId, csrfToken, cookieHeader, retries = 3) {
+            const formBody = "csrf_test_name=" + csrfToken + "&RO_ID=&ST_ID=&KV_ID=" + kvId;
+
+            for (let attempt = 1; attempt <= retries; attempt++) {
+              try {
+                const res = await fetch("https://pis.kvs.gov.in/kv-profile-details", {
+                  method: "POST",
+                  headers: {
+                    accept: "*/*",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "x-requested-with": "XMLHttpRequest",
+                    cookie: cookieHeader,
+                  },
+                  body: formBody,
+                });
+
+                if (!res.ok) throw new Error("Status " + res.status);
+
+                const json = await res.json();
+
+                if (json && json.KV && json.KV.NME) {
+                  return json;
+                } else {
+                  throw new Error("Missing KV data");
+                }
+
+              } catch (err) {
+                console.warn("Attempt " + attempt + " failed for KV ID " + kvId + ": " + err.message);
+                if (attempt === retries) {
+                  return null;
+                }
+                await new Promise(r => setTimeout(r, 1000 * attempt)); // Backoff
+              }
+            }
+          }
+
+          async function main() {
+            const schools = JSON.parse(fs.readFileSync("raw/schools.json", "utf8"));
+            const { csrfToken, cookieHeader } = await getFreshCsrf();
+
+            const results = [];
+            const names = [];
+
+            for (const school of schools) {
+              const kvCode = school.code;
+              const profile = await fetchProfile(kvCode, csrfToken, cookieHeader);
+
+              if (profile) {
+                results.push(profile);
+                names.push(profile.KV.NME);
+                console.log("✅ " + profile.KV.NME);
+              } else {
+                console.warn("⚠️ Failed to fetch profile for: " + kvCode);
+              }
+            }
+
+            if (results.length < 1320) {
+              console.error("❌ ABORT: Only " + results.length + " profiles collected (min 1320 required)");
+              process.exit(1);
+            }
+
+            fs.writeFileSync("raw/schoolProfile.json", JSON.stringify(results, null, 2));
+            fs.writeFileSync("raw/schoolProfile.txt", names.join("\n"));
+            console.log("✅ Saved profiles for " + results.length + " schools.");
+          }
+
+          main().catch(e => {
+            console.error("❌ Fatal error:", e);
+            process.exit(1);
+          });
+          EOF
+
+          node fetchProfiles.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw/schoolProfile.*
+          git commit -m "📦 Update schoolProfile data" || echo "No changes to commit"
+          git push
