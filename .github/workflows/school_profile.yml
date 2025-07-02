@@ -90,7 +90,6 @@ jobs:
             const { csrfToken, cookieHeader } = await getFreshCsrf();
 
             const results = [];
-            const names = [];
 
             for (const school of schools) {
               const kvCode = school.code;
@@ -98,7 +97,6 @@ jobs:
 
               if (profile) {
                 results.push(profile);
-                names.push(profile.KV.NME);
                 console.log("✅ " + profile.KV.NME);
               } else {
                 console.warn("⚠️ Failed to fetch profile for: " + kvCode);
@@ -111,7 +109,6 @@ jobs:
             }
 
             fs.writeFileSync("raw/schoolProfile.json", JSON.stringify(results, null, 2));
-            fs.writeFileSync("raw/schoolProfile.txt", names.join("\n"));
             console.log("✅ Saved profiles for " + results.length + " schools.");
           }
 
