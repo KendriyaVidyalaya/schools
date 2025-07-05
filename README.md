@@ -37,17 +37,17 @@ Or open raw/schools.json in your favorite spreadsheet/data tool.
 }
 ```
 
-Data Updates
+📈 Data Updates
 ------------
 - Automated: GitHub Actions update the dataset every 10 days (schools) and every 30 days (profiles).
 - Sources: Data fetched from https://pis.kvs.gov.in
 
-Contributing
+👋 Contributing
 ------------
 - Issues and suggestions welcome!
 - Data is auto-fetched; PRs for code/scripts or extra documentation are appreciated.
 
-License
+📃 License
 -------
 This data is under MIT license.
 
