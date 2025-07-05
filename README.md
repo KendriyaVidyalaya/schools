@@ -36,6 +36,7 @@ Or open raw/schools.json in your favorite spreadsheet/data tool.
   "region_name": "AHMEDABAD"
 }
 ```
+(raw/schools.json)
 
 📈 Data Updates
 ------------
