@@ -10614,5 +10614,213 @@
     "state_name": null,
     "region_id": 28,
     "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2465",
+    "name": "KENDRIYA VIDYALAYA  NARSINGHGARH",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 19,
+    "region_name": "BHOPAL"
+  },
+  {
+    "code": "2451",
+    "name": "KENDRIYA VIDYALAYA BIRPUR SUPAUL",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 36,
+    "region_name": "PATNA"
+  },
+  {
+    "code": "2452",
+    "name": "KENDRIYA VIDYALAYA GANDOH BHALESSA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 31,
+    "region_name": "JAMMU"
+  },
+  {
+    "code": "2453",
+    "name": "KENDRIYA VIDYALAYA PATNAGARH",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2454",
+    "name": "KENDRIYA VIDYALAYA KITTAMPALAYAM",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 22,
+    "region_name": "CHENNAI"
+  },
+  {
+    "code": "2455",
+    "name": "KENDRIYA VIDYALAYA ATHMALIK",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2456",
+    "name": "KENDRIYA VIDYALAYA KUCHINDA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2457",
+    "name": "KENDRIYA VIDYALAYA JEYPORE",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2458",
+    "name": "KENDRIYA VIDYALAYA MAHARAJGANJ GGICC",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 41,
+    "region_name": "VARANASI"
+  },
+  {
+    "code": "2459",
+    "name": "KENDRIYA VIDYALAYA PALASAMUDRAM NACIN",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2460",
+    "name": "KENDRIYA VIDYALAYA DHARMANAGAR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 39,
+    "region_name": "SILCHAR"
+  },
+  {
+    "code": "2461",
+    "name": "KENDRIYA VIDYALAYA KHAJURAHO",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 29,
+    "region_name": "JABALPUR"
+  },
+  {
+    "code": "2462",
+    "name": "KENDRIYA VIDYALAYA KOTDWAR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 23,
+    "region_name": "DEHRADUN"
+  },
+  {
+    "code": "2463",
+    "name": "KENDRIYA VIDYALAYA BSF SRIKARANPUR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 30,
+    "region_name": "JAIPUR"
+  },
+  {
+    "code": "2464",
+    "name": "KENDRIYA VIDYALAYA PAYAGPUR GGICC",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 41,
+    "region_name": "VARANASI"
+  },
+  {
+    "code": "2466",
+    "name": "KENDRIYA VIDYALAYA ASHOKNAGAR DIET",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 19,
+    "region_name": "BHOPAL"
+  },
+  {
+    "code": "2467",
+    "name": "KENDRIYA VIDYALAYA BARGHAT",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 29,
+    "region_name": "JABALPUR"
+  },
+  {
+    "code": "2468",
+    "name": "KENDRIYA VIDYALAYA TIRODI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 29,
+    "region_name": "JABALPUR"
+  },
+  {
+    "code": "2469",
+    "name": "KENDRIYA VIDYALAYA JHINJHARI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 29,
+    "region_name": "JABALPUR"
+  },
+  {
+    "code": "2470",
+    "name": "KENDRIYA VIDYALAYA CHAMPUA CSCC",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2471",
+    "name": "KENDRIYA VIDYALAYA MADSUDANPUR DEVIDAS BIJNOR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 16,
+    "region_name": "AGRA"
+  },
+  {
+    "code": "2472",
+    "name": "KENDRIYA VIDYALAYA NDRF SUDUMBARE PUNE",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 35,
+    "region_name": "MUMBAI"
+  },
+  {
+    "code": "2473",
+    "name": "KENDRIYA VIDYALAYA TALCHER ACCT",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2474",
+    "name": "KENDRIYA VIDYALAYA KAMAKHYANAGAR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2475",
+    "name": "KENDRIYA VIDYALAYA RAILWAY TITLAGARH",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2476",
+    "name": "KENDRIYA VIDYALAYA BEMETARA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 37,
+    "region_name": "RAIPUR"
   }
 ]
