@@ -10822,5 +10822,53 @@
     "state_name": null,
     "region_id": 37,
     "region_name": "RAIPUR"
+  },
+  {
+    "code": "2479",
+    "name": "KENDRIYA VIDYALAYA AFS PHALODI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 30,
+    "region_name": "JAIPUR"
+  },
+  {
+    "code": "2478",
+    "name": "KENDRIYA VIDYALAYA SABALGARH",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 19,
+    "region_name": "BHOPAL"
+  },
+  {
+    "code": "2480",
+    "name": "KENDRIYA VIDYALAYA DHONE",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2481",
+    "name": "KENDRIYA VIDYALAYA RAMKOT",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 31,
+    "region_name": "JAMMU"
+  },
+  {
+    "code": "2482",
+    "name": "KENDRIYA VIDYALAYA ELARGI (D)",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 18,
+    "region_name": "BANGALORE"
+  },
+  {
+    "code": "2477",
+    "name": "KENDRIYA VIDYALAYA ITBP KHURDA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 20,
+    "region_name": "BHUBANESWAR"
   }
 ]
