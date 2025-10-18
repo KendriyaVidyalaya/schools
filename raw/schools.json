@@ -10870,5 +10870,21 @@
     "state_name": null,
     "region_id": 20,
     "region_name": "BHUBANESWAR"
+  },
+  {
+    "code": "2483",
+    "name": "KENDRIYA VIDYALAYA THODUPUZHA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 25,
+    "region_name": "ERNAKULAM"
+  },
+  {
+    "code": "2484",
+    "name": "KENDRIYA VIDYALAYA KHAJURI KHAS",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 24,
+    "region_name": "DELHI"
   }
 ]
