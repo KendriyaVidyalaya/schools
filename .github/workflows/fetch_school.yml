@@ -2,7 +2,7 @@ name: Update Schools Dataset
 
 on:
   schedule:
-    - cron: '0 0 */10 * *'  # Every 10 days
+    - cron: '0 0 */30 * *'  # Every 30 days
   workflow_dispatch:
 
 jobs:
