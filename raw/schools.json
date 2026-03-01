@@ -10886,5 +10886,85 @@
     "state_name": null,
     "region_id": 24,
     "region_name": "DELHI"
+  },
+  {
+    "code": "2485",
+    "name": "KENDRIYA VIDYALAYA SHINAL ATHANI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 18,
+    "region_name": "BANGALORE"
+  },
+  {
+    "code": "2486",
+    "name": "KENDRIYA VIDYALAYA SIROHI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 30,
+    "region_name": "JAIPUR"
+  },
+  {
+    "code": "2487",
+    "name": "KENDRIYA VIDYALAYA KRISHNAGIRI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 22,
+    "region_name": "CHENNAI"
+  },
+  {
+    "code": "2488",
+    "name": "KENDRIYA VIDYALAYA SURAJPUR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 37,
+    "region_name": "RAIPUR"
+  },
+  {
+    "code": "2489",
+    "name": "KENDRIYA VIDYALAYA CHITRADURGA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 18,
+    "region_name": "BANGALORE"
+  },
+  {
+    "code": "2490",
+    "name": "KENDRIYA VIDYALAYA BHIM",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 30,
+    "region_name": "JAIPUR"
+  },
+  {
+    "code": "2491",
+    "name": "KENDRIYA VIDYALAYA MANGASAMUDRAM",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2492",
+    "name": "KENDRIYA VIDYALAYA BAIRUGANIPALLE",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2493",
+    "name": "KENDRIYA VIDYALAYA SAMNAPUR, NAINPUR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 29,
+    "region_name": "JABALPUR"
+  },
+  {
+    "code": "2494",
+    "name": "KENDRIYA VIDYALAYA MAIHAR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 29,
+    "region_name": "JABALPUR"
   }
 ]
