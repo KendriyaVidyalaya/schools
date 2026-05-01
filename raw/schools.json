@@ -10966,5 +10966,173 @@
     "state_name": null,
     "region_id": 29,
     "region_name": "JABALPUR"
+  },
+  {
+    "code": "2495",
+    "name": "KENDRIYA VIDYALAYA MUDNAL",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 18,
+    "region_name": "BANGALORE"
+  },
+  {
+    "code": "2503",
+    "name": "KENDRIYA VIDYALAYA RAJGARH",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 30,
+    "region_name": "JAIPUR"
+  },
+  {
+    "code": "2496",
+    "name": "KENDRIYA VIDYALAYA VALASAPALLE",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2497",
+    "name": "KENDRIYA VIDYALAYA ANAKAPALLI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2498",
+    "name": "KENDRIYA VIDYALAYA NAGAVARAM SHIVAR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2499",
+    "name": "KENDRIYA VIDYALAYA BADERA ORAI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 16,
+    "region_name": "AGRA"
+  },
+  {
+    "code": "2500",
+    "name": "KENDRIYA VIDYALAYA IIT DHARWAD",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 18,
+    "region_name": "BANGALORE"
+  },
+  {
+    "code": "2501",
+    "name": "KENDRIYA VIDYALAYA MUNGELI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 37,
+    "region_name": "RAIPUR"
+  },
+  {
+    "code": "2502",
+    "name": "KENDRIYA VIDYALAYA NUH",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 26,
+    "region_name": "GURGAON"
+  },
+  {
+    "code": "2504",
+    "name": "KENDRIYA VIDYALAYA PALASA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2505",
+    "name": "KENDRIYA VIDYALAYA NANDIGAMA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2506",
+    "name": "KENDRIYA VIDYALAYA NUZVID",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 28,
+    "region_name": "HYDERABAD"
+  },
+  {
+    "code": "2507",
+    "name": "KENDRIYA VIDYALAYA UNAULA DOYAM GORAKHPUR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 41,
+    "region_name": "VARANASI"
+  },
+  {
+    "code": "2508",
+    "name": "KENDRIYA VIDYALAYA KOTKHAI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 26,
+    "region_name": "GURGAON"
+  },
+  {
+    "code": "2509",
+    "name": "KENDRIYA VIDYALAYA MAURANIPUR",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 16,
+    "region_name": "AGRA"
+  },
+  {
+    "code": "2510",
+    "name": "KENDRIYA VIDYALAYA CCL DAKRA",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 38,
+    "region_name": "RANCHI"
+  },
+  {
+    "code": "2511",
+    "name": "KENDRIYA VIDYALAYA SHAMLI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 16,
+    "region_name": "AGRA"
+  },
+  {
+    "code": "2512",
+    "name": "KENDRIYA VIDYALAYA NO.3 DARBHANGA (AIIMS)",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 36,
+    "region_name": "PATNA"
+  },
+  {
+    "code": "2513",
+    "name": "KENDRIYA VIDYALAYA MADAN NEGI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 23,
+    "region_name": "DEHRADUN"
+  },
+  {
+    "code": "2514",
+    "name": "KENDRIYA VIDYALAYA GOOL",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 31,
+    "region_name": "JAMMU"
+  },
+  {
+    "code": "2515",
+    "name": "KENDRIYA VIDYALAYA GC CRPF CHAKIA CHANDAULI",
+    "state_id": null,
+    "state_name": null,
+    "region_id": 41,
+    "region_name": "VARANASI"
   }
 ]
