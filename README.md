@@ -1,3 +1,7 @@
+> [!NOTE]
+> On **May 1st** was the **last successful update** of this list. API end point of the Public Information Portal which was used to scrape this detailed list is no longer online.
+> TOLL: 1392 KV Schools Data Collected
+
 📚 Kendriya Vidyalaya Schools Dataset
 ==================================
 
