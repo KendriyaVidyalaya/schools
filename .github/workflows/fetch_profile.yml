@@ -2,8 +2,8 @@ name: Fetch School Profiles
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 */30 * *'  # Every 30 days
+# schedule:
+#   - cron: '0 0 */30 * *'  # Every 30 days
 
 jobs:
   fetch-school-profiles:
